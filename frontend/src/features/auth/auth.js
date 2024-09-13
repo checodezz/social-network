@@ -11,10 +11,23 @@ export const signUpUserAsync = createAsyncThunk("auth/signUpUser", async (formDa
             console.log(error.response.data)
             return rejectWithValue(error.response.data)
         }
-        return rejectWithValue("An unecpected error occured")
+        return rejectWithValue("An unexpected error occured")
+    }
+});
+
+export const loginUserAsync = createAsyncThunk("auth/loginUser", async (formData, { rejectWithValue }) => {
+    try {
+        const response = await axios.post("http://localhost:3000/login", formData);
+        console.log(response.data.user);
+        return response.data.user
+    } catch (error) {
+        if (error.response && error.response.data) {
+            console.log(error.response.data)
+            return rejectWithValue(error.response.data)
+        }
+        return rejectWithValue("An unexpected error occured")
     }
 })
-
 
 const authSlice = createSlice({
     name: "auth",
@@ -34,6 +47,7 @@ const authSlice = createSlice({
             .addCase(signUpUserAsync.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
+                state.isError = false
                 state.token = action.payload.token;
                 state.message = "SignUp Successful"
             })
@@ -41,6 +55,21 @@ const authSlice = createSlice({
                 state.isError = true;
                 state.isLoading = false;
                 state.message = action.payload
+            })
+            .addCase(loginUserAsync.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(loginUserAsync.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.isError = false
+                state.token = action.payload.token
+                state.message = "Login Successful"
+            })
+            .addCase(loginUserAsync.rejected, (state, action) => {
+                state.isError = true
+                state.isLoading = false;
+                state.message = action.payload.error
             })
     }
 })

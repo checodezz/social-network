@@ -45,7 +45,6 @@ const SignUpForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Trigger HTML5 validation
     const form = e.target;
     if (form.checkValidity()) {
       setError("");
@@ -54,6 +53,7 @@ const SignUpForm = () => {
         if (signUpUserAsync.fulfilled.match(resultAction)) {
           toast.success("Signup successful!");
           navigate("/login");
+          setTimeout(() => toast.info("Please Login to continue"), 1000);
         } else {
           toast.error(resultAction.payload);
           setError(resultAction.payload);

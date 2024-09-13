@@ -29,13 +29,13 @@ app.post("/register", async (req, res) => {
         const { firstname, lastname, email, password } = req.body
         //all data should exist 
         if (!(firstname && lastname && email && password)) {
-            res.status(400).send("All fields are compulsory")
+            return res.status(400).send("All fields are compulsory")
         }
 
         //check if user already exists
         const existingUser = await User.findOne({ email })
         if (existingUser) {
-            res.status(401).send("User already exist with this email, Please try logging in.")
+            return res.status(401).send("User already exist with this email, Please try logging in.")
         }
 
         //encrypt the password
@@ -69,14 +69,14 @@ app.post("/login", async (req, res) => {
 
         //validation
         if (!(email && password)) {
-            res.status(400).send("All fields are required")
+            return res.status(400).send("All fields are required")
         }
 
         //find user in db
         const user = await User.findOne({ email });
 
         if (!user) {
-            res.status(404).send("User doesn't exist, Please register to create an account.")
+            return res.status(404).json({ error: "User doesn't exist, Please register to create an account." })
         }
 
         //match the password
@@ -90,14 +90,16 @@ app.post("/login", async (req, res) => {
                 expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
                 httpOnly: true
             };
-
             //send a token in user cookie 
-            res.status(200).cookie("token", token, options).json({ success: true, token, user })
+            return res.status(200).cookie("token", token, options).json({ success: true, token, user })
+        } else {
+            return res.status(400).json({ error: "Password is Incorrect, Please try again." })
         }
 
 
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        throw error
     }
 })
 
