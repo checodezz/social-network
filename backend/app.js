@@ -91,7 +91,7 @@ app.post("/login", async (req, res) => {
                 httpOnly: true
             };
             //send a token in user cookie 
-            return res.status(200).cookie("token", token, options).json({ success: true, token, user })
+            return res.cookie("token", token, options).json({ success: true, token, user })
         } else {
             return res.status(400).json({ error: "Password is Incorrect, Please try again." })
         }
@@ -105,8 +105,7 @@ app.post("/login", async (req, res) => {
 
 
 //
-app.get("/dashboard", auth, (req, res) => {
-    console.log(req.user)
+app.get("/feed", auth, async (req, res) => {
     res.send("Welcome to dashboard")
 })
 module.exports = app
