@@ -1,25 +1,23 @@
-const jwt = require("jsonwebtoken")
+const jwt = require('jsonwebtoken');
 
 const auth = (req, res, next) => {
-    //grab token from cookie
-    console.log(req.cookies);
-    const { token } = req.cookies
-    //if no token, stop there 
-    if (!token) {
-        res.status(403).send("Please login first")
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(403).send("Please login first");
     }
+
+    const token = authHeader.split(' ')[1];
+    console.log('Token: ', token); // Debugging token
+
     try {
-        //decode that token and get id
-        const decode = jwt.verify(token, process.env.JWT_SECRET);
-        console.log(decode);
-        req.user = decode
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log('Decoded: ', decoded); // Debugging decoded token
+        req.user = decoded;
+        next();
     } catch (error) {
-        console.log(error);
-        res.status(401).send("Invalid Token")
+        console.log('Error: ', error); // Debugging error
+        return res.status(401).send("Invalid Token");
     }
-    //query to db for that userid
+};
 
-    return next()
-}
-
-module.exports = auth
+module.exports = auth;
