@@ -1,8 +1,10 @@
 import { configureStore, } from "@reduxjs/toolkit"
 import authSlice from "../features/auth/auth"
+import feedSlice from "../features/feed/feedSlice"
 
 export const store = configureStore({
     reducer: {
-        auth: authSlice
+        auth: authSlice,
+        feed: feedSlice
     }
 }) 
