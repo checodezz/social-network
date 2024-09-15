@@ -32,13 +32,23 @@ export const loginUserAsync = createAsyncThunk("auth/loginUser", async (formData
 const authSlice = createSlice({
     name: "auth",
     initialState: {
-        token: null,
+        token: localStorage.getItem("token") || null,
         isLoading: false,
         isError: false,
-        isSuccess: false,
+        isSignUpSuccess: false,
+        isSuccess: !!localStorage.getItem("token"),
         message: ""
     },
-    reducers: {},
+    reducers: {
+        resetSignUpSuccessful: (state) => {
+            state.isSignUpSuccess = false
+        },
+        logout: (state) => {
+            state.token = null;
+            state.isSuccess = false;
+            localStorage.removeItem("token"); // Clear token from localStorage on logout
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(signUpUserAsync.pending, (state) => {
@@ -46,7 +56,7 @@ const authSlice = createSlice({
             })
             .addCase(signUpUserAsync.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isSuccess = true;
+                state.isSignUpSuccess = true;
                 state.isError = false
                 state.token = action.payload.token;
                 state.message = "SignUp Successful"
@@ -65,6 +75,8 @@ const authSlice = createSlice({
                 state.isError = false
                 state.token = action.payload.token
                 state.message = "Login Successful"
+                localStorage.setItem("token", action.payload.token)
+
             })
             .addCase(loginUserAsync.rejected, (state, action) => {
                 state.isError = true
@@ -74,4 +86,5 @@ const authSlice = createSlice({
     }
 })
 
+export const { resetSignUpSuccessful } = authSlice.actions;
 export default authSlice.reducer

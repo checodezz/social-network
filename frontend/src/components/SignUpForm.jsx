@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import InputField from "../utils/InputField";
-import { signUpUserAsync } from "../features/auth/auth";
+import { signUpUserAsync, resetSignUpSuccessful } from "../features/auth/auth";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignUpForm = () => {
+  const { isSignUpSuccess } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -17,8 +17,14 @@ const SignUpForm = () => {
     password: "",
     retype_password: "",
   });
-
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (isSignUpSuccess) {
+      navigate("/login");
+      dispatch(resetSignUpSuccessful());
+    }
+  }, [navigate, isSignUpSuccess, dispatch]);
 
   const handleChange = (e) => {
     setError("");
@@ -52,7 +58,6 @@ const SignUpForm = () => {
         const resultAction = await dispatch(signUpUserAsync(formData));
         if (signUpUserAsync.fulfilled.match(resultAction)) {
           toast.success("Signup successful!");
-          navigate("/login");
           setTimeout(() => toast.info("Please Login to continue"), 1000);
         } else {
           toast.error(resultAction.payload);
