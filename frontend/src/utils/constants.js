@@ -1,0 +1,1 @@
+export const API_URL = "https://social-network-checodezz.vercel.app"
