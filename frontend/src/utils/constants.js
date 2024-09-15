@@ -1,1 +1,1 @@
-export const API_URL = "https://social-network-checodezz.vercel.app"
+export const API_URL = "http://localhost:3000/api"
