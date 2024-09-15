@@ -1,13 +1,14 @@
 require("dotenv").config();
 const cors = require("cors")
-const User = require("./model/user")
 const express = require("express");
-const bcrypt = require("bcryptjs")
-const jwt = require("jsonwebtoken")
 const cookieParser = require("cookie-parser");
 const connectDB = require("./database/db");
-const auth = require("./middleware/auth");
-connectDB()
+
+const loginRegisterRoutes = require("./routes/loginAndRegister");
+const userRoutes = require("./routes/userRoutes")
+
+connectDB();
+
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -18,11 +19,13 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions));
-
+/* 
 app.get("/", (req, res) => {
     res.send("<h1>Server is Working.</h1>")
 });
+ */
 
+/* 
 app.post("/register", async (req, res) => {
     try {
         //get all data from body
@@ -61,7 +64,8 @@ app.post("/register", async (req, res) => {
     }
 
 });
-
+ */
+/* 
 app.post("/login", async (req, res) => {
     try {
         //get all data from frontend
@@ -103,9 +107,15 @@ app.post("/login", async (req, res) => {
     }
 })
 
-
+ */
 //
-app.get("/feed", auth, async (req, res) => {
-    res.send("Welcome to dashboard")
-})
+
+// app.get("/feed", auth, async (req, res) => {
+//     res.send("Welcome to dashboard")
+// })
+
+app.use("/api", loginRegisterRoutes);
+app.use("/api", userRoutes);
+
+
 module.exports = app

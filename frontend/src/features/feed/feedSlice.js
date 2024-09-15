@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { API_URL } from "../../utils/constants";
+import axios from "axios";
 
-export const fetchFeedData = createAsyncThunk("feed/fetchFeedData", async (_, { rejectWithValue, getState }) => {
+export const fetchFeedData = createAsyncThunk("feed/fetchFeedData", async (_, { rejectWithValue }) => {
     const token = localStorage.getItem("token") //acxess the tokem from auth slice
     console.log(token)
     try {
