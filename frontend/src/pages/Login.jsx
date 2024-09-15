@@ -4,6 +4,7 @@ import InputField from "../utils/InputField";
 import { loginUserAsync } from "../features/auth/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { FiLogIn } from "react-icons/fi";
 const Login = () => {
   const { isError, message, isSuccess } = useSelector((state) => state.auth);
   const [error, setError] = useState("");
@@ -48,8 +49,12 @@ const Login = () => {
         className="bg-white p-4 shadow"
         style={{ borderRadius: "15px", maxWidth: "400px", width: "100%" }}
       >
-        <h2 className="pb-1">Log in</h2>
-
+        <div className="d-flex justify-content-between">
+          <h2 className="pb-2">
+            Log<span className="text-primary">in</span>
+          </h2>
+          <FiLogIn size={40} />
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="row g-3 text-muted pt-1">
             <div className="col-md-12">
@@ -92,7 +97,7 @@ const Login = () => {
             </button>
 
             <p className="text-decoration-none pt-3 text-center mb-0">
-              Or would you like to{" "}
+              Don't have an acount?{" "}
               <Link to="/" className="text-decoration-none">
                 Sign up
               </Link>
