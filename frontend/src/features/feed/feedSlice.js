@@ -4,14 +4,13 @@ import axios from "axios";
 
 export const fetchFeedData = createAsyncThunk("feed/fetchFeedData", async (_, { rejectWithValue }) => {
     const token = localStorage.getItem("token") //acxess the tokem from auth slice
-    console.log(token)
     try {
         const response = await axios.get(`${API_URL}/feed`, {
             headers: {
                 Authorization: `Bearer ${token}`//send token in authorization header
             }
         })
-        console.log(response.data)
+        // console.log(response.data)
         return response.data
     } catch (error) {
         console.log(error.response)

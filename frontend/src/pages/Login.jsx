@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import InputField from "../utils/InputField";
-import { loginUserAsync } from "../features/auth/auth";
+import { loginUserAsync } from "../features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { FiLogIn } from "react-icons/fi";
