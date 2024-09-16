@@ -37,9 +37,10 @@ const Feed = () => {
         {user && (
           <>
             <LeftSidebar user={user} />
-            <div className="col-md-8 bg-body-secondary rounded">
+            <div className="col-md-6  rounded">
               <div>Custom column padding</div>
             </div>
+            <div className="col-md-3">hello</div>
           </>
         )}
       </div>

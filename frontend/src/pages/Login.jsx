@@ -38,7 +38,7 @@ const Login = () => {
 
   return (
     <div
-      className="d-flex flex-column justify-content-center align-items-center"
+      className="d-flex flex-column justify-content-center align-items-center "
       style={{ minHeight: "100vh" }} // Full viewport height
     >
       <h1 className="text-secondary pb-5">
@@ -46,7 +46,7 @@ const Login = () => {
       </h1>
 
       <div
-        className="bg-white p-4 shadow"
+        className="bg-white p-4 shadow bg-body-tertiary"
         style={{ borderRadius: "15px", maxWidth: "400px", width: "100%" }}
       >
         <div className="d-flex justify-content-between">
@@ -56,7 +56,7 @@ const Login = () => {
           <FiLogIn size={40} />
         </div>
         <form onSubmit={handleSubmit}>
-          <div className="row g-3 text-muted pt-1">
+          <div className="row g-3 text-muted pt-1 ">
             <div className="col-md-12">
               <InputField
                 label="Email"

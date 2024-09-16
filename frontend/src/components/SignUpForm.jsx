@@ -77,7 +77,10 @@ const SignUpForm = () => {
 
   return (
     <div className="container">
-      <div className="bg-white  p-4  shadow" style={{ borderRadius: "15px" }}>
+      <div
+        className="bg-body-tertiary p-4  shadow"
+        style={{ borderRadius: "15px" }}
+      >
         <h2 className="pb-1">Join Us Now!</h2>
         <p>
           Already a member?{" "}
