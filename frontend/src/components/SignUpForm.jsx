@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import InputField from "../utils/InputField";
-import { signUpUserAsync, resetSignUpSuccessful } from "../features/auth/auth";
+import {
+  signUpUserAsync,
+  resetSignUpSuccessful,
+} from "../features/auth/authSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
