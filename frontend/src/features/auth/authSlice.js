@@ -34,6 +34,7 @@ const authSlice = createSlice({
     name: "auth",
     initialState: {
         token: localStorage.getItem("token") || null,
+        user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
         isLoading: false,
         isError: false,
         isSignUpSuccess: false,
@@ -46,6 +47,7 @@ const authSlice = createSlice({
         },
         logout: (state) => {
             state.token = null;
+            state.user = null
             state.isSuccess = false;
             localStorage.removeItem("token"); // Clear token from localStorage on logout
         }
@@ -59,7 +61,6 @@ const authSlice = createSlice({
                 state.isLoading = false;
                 state.isSignUpSuccess = true;
                 state.isError = false
-                state.token = action.payload.token;
                 state.message = "SignUp Successful"
             })
             .addCase(signUpUserAsync.rejected, (state, action) => {
@@ -75,8 +76,10 @@ const authSlice = createSlice({
                 state.isSuccess = true;
                 state.isError = false
                 state.token = action.payload.token
+                state.user = action.payload
                 state.message = "Login Successful"
                 localStorage.setItem("token", action.payload.token)
+                localStorage.setItem("user", JSON.stringify(action.payload))
 
             })
             .addCase(loginUserAsync.rejected, (state, action) => {
