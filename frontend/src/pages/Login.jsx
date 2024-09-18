@@ -5,8 +5,11 @@ import { loginUserAsync } from "../features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { FiLogIn } from "react-icons/fi";
+
 const Login = () => {
-  const { isError, message, isSuccess } = useSelector((state) => state.auth);
+  const { isError, message, isSuccess, token, user } = useSelector(
+    (state) => state.auth
+  );
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     email: "",
@@ -18,11 +21,11 @@ const Login = () => {
       setError(message);
     }
 
-    if (isSuccess) {
+    if (isSuccess && token && user) {
       toast.success(message);
       navigate("/feed");
     }
-  }, [message, isError, isSuccess, navigate]);
+  }, [message, isError, isSuccess, navigate, user, token]);
 
   const dispatch = useDispatch();
 
